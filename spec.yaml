@@ -14,11 +14,9 @@
         name: 'James Barnes'
         age: 27
       Ted: { name: ted, age: 32, email: ted@tedtalks.com }
-  country:
-    name: Österreich
-    website: http://en.wikipedia.org/wiki/Austria
-  space:
-    description: space, the final frontier
+  comments:
+    status: 200
+    count: 3
   brackets:
     square: Square [brackets] can go in the middle of strings
     squiggle: Squiggle {brackets} can also go in the middle of strings!
