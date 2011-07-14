@@ -12,13 +12,12 @@ fs.readFile('spec.yaml', function(err, fileContents) {
     for (var model in config) {
         router.get('/').get('/' + model)
               .bind(function (request, res, next) {
-                  res.end("Hello World!");
+                  var pathname = require('url').parse(request.url)['pathname'];
+                  console.log(pathname);
+                  res.end(JSON.stringify(config[pathname.substring(1)]));
               });
-        console.log(model);
     }
 });
 
-
 router.listen(8080);
-
 console.log('Server running at http://127.0.0.1:8080/');
