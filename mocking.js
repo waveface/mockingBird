@@ -1,19 +1,24 @@
 var path = process.argv[2],
     http = require('http'), 
     fs = require('fs'),
+    Router = require('biggie-router'),
     yaml = require('yaml');
 
-http.createServer(function (req, res) {
-    res.writeHead(200, {'Content-Type': 'text/plain'});
-    
-    fs.readFile('spec.yaml', function(err, fileContents) {
-      fileContents = fileContents.toString()
-      console.log('\n')
-      console.log(fileContents)
-      console.log('\noutputs:\n')
-      console.log(yaml.eval(fileContents))
-      res.end('test in block\n')
-    })
-  res.write('test outside block\n')
-}).listen(1337, "127.0.0.1");
-console.log('Server running at http://127.0.0.1:1337/');
+var router = new Router();
+
+fs.readFile('spec.yaml', function(err, fileContents) {
+    fileContents = fileContents.toString()
+    var config = yaml.eval(fileContents);
+    for (var model in config) {
+        router.get('/').get('/' + model)
+              .bind(function (request, res, next) {
+                  res.end("Hello World!");
+              });
+        console.log(model);
+    }
+});
+
+
+router.listen(8080);
+
+console.log('Server running at http://127.0.0.1:8080/');
