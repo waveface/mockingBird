@@ -1,5 +1,5 @@
-Prerequiste
-===========
+Prerequisite
+============
 
     cd ~
     npm install yaml
