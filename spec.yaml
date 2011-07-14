@@ -10,6 +10,7 @@
         email: 'srogers@america.com'
         ctime: "2011/07/14 12:58:00"
         desc: 'Steve Rogers was born July 4, 1917, in the Lower East Side of Manhattan, New York City, to Irish immigrants Sarah and Joseph Rogers.'
+        avatar: http://www.gravatar.com/avatar/9e0cff1d079898eb94287093f4d26338.jpg
       Bucky:
         name: 'James Barnes'
         age: 27
@@ -17,6 +18,9 @@
   comments:
     status: 200
     count: 3
+  comment_123:
+    status: 200
+    count: 2
   brackets:
     square: Square [brackets] can go in the middle of strings
     squiggle: Squiggle {brackets} can also go in the middle of strings!

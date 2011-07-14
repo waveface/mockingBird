@@ -10,14 +10,15 @@ fs.readFile('spec.yaml', function(err, fileContents) {
     fileContents = fileContents.toString()
     var config = yaml.eval(fileContents);
     for (var model in config) {
-        router.get('/').get('/' + model)
+        router.get('/').get('/' + model.replace('_','/') )
               .bind(function (request, res, next) {
                   var pathname = require('url').parse(request.url)['pathname'];
-                  console.log(pathname);
-                  res.end(JSON.stringify(config[pathname.substring(1)]));
+                  var p = pathname.substring(1).replace('/','_');
+                  console.log(p);
+                  res.end(JSON.stringify(config[p]));
               });
     }
 });
 
 router.listen(8080);
-console.log('Server running at http://127.0.0.1:8080/');
+console.log('Mocking Bird running at http://127.0.0.1:8080/');
