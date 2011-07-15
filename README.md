@@ -1,9 +1,9 @@
 Why Mocking Bird
 ================
 
-API is the law of entire software project. It should reviewed as early as possible. But in reality, it begins with a document, people try to add a lot of things in it. In the end, a bloat API spec. It's hard to implement, hard to use (you need to reference document), and finally everyone hates it.
+API is the law of entire software project. It should reviewed as early as possible. But in reality, it begins with a document, people try to add a lot of things in it. In the end, a bloat API spec is born. It's hard to implement, hard to use (you need to reference document), and finally everyone hates it.
 
-By learning from "how to Desgin a good API and why it matters" by , a API spec should be
+By learning from "how to Desgin a good API and why it matters" by Joshua Bloch, a API spec should
 
  * short (1 page rule them all)
  * start *before* you've implement the API
