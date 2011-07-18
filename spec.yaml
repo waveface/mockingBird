@@ -1,9 +1,21 @@
 # APIs in V1
 meta:
   version: draft
-user_jamie:
-  name: jamie sa
-  id: 003
+# feature 1: create an item, update status
+# https://dev.twitter.com/docs/api/1/post/statuses/update
+v1_statuses:
+  METHOD: POST
+  text: maybe he'll finally find his keys. #peterfalk.
+  in_reply_to_user_id: null
+# list lastest 20 statuses of current group
+# group_id / user_id
+# refer to twitter public timeline
+v1_groups_timeline:
+  - { text: Pulp Fiction, user: uri to user a }
+  - { text: Best Bmovie ever, user: uri to user b } 
+v1_users_timeline:
+  - { text: Pulp Fiction}
+  - { text: Best Bmovie ever} 
 #test
 users:
   status: 200
