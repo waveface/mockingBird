@@ -10,10 +10,10 @@ fs.readFile('spec.yaml', function(err, fileContents) {
     fileContents = fileContents.toString()
     var config = yaml.eval(fileContents);
     for (var model in config) {
-        router.get('/').get('/' + model.replace('_','/') )
+        router.get('/').get('/' + model.replace(/_/g,'/') )
               .bind(function (request, res, next) {
                   var pathname = require('url').parse(request.url)['pathname'];
-                  var p = pathname.substring(1).replace('/','_');
+                  var p = pathname.substring(1).replace(/\//g,'_');
                   console.log(p);
                   res.end(JSON.stringify(config[p]));
               });
