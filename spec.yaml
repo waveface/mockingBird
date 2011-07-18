@@ -1,38 +1,43 @@
----
 # APIs in V1
-# User APIs
-  users:
-    status: 200
-    count: 3
-    list:
-      America:
-        name: Steve Rogers
-        role: Captain
-        age: 23
-        email: srogers@america.com
-        ctime: "2011/07/14 12:58:00"
-        desc: Steve Rogers was born July 4, 1917, in the Lower East Side of Manhattan, New York City, to Irish immigrants Sarah and Joseph Rogers.
-        avatar: http://www.gravatar.com/avatar/9e0cff1d079898eb94287093f4d26338.jpg
-      Bucky:
-        name: James Barnes
-        age: 27
-      Ted: { name: ted, age: 32, email: ted@tedtalks.com }
-  user_rogers:
-    status: 200
-    user:
+meta:
+  version: draft
+user_jamie:
+  name: jamie sa
+  id: 003
+#test
+users:
+  status: 200
+  count: 3
+  list:
+    America:
       name: Steve Rogers
-      tite: No need for quoting, that is the beauty of yaml. But ident matters
-      description: tons of more detailed information about this user.
-# Comment APIs
-  comments:
-    status: 200
-    count: 3
-  comment_123:
-    status: 200
-    context: 'this is comment 123'
+      role: Captain
+      age: 23
+      email: srogers@america.com
+      ctime: "2011/07/14 12:58:00"
+      desc: Steve Rogers was born July 4, 1917, in the Lower East Side of Manhattan, New York City, to Irish immigrants Sarah and Joseph Rogers.
+      avatar: http://www.gravatar.com/avatar/9e0cff1d079898eb94287093f4d26338.jpg
+    Bucky:
+      name: James Barnes
+      age: 27
+    Ted: { name: ted, age: 32, email: ted@tedtalks.com }
+user_rogers:
+  status: 200
+  user:
+    name: Steve Rogers
+    tite: No need for quoting, that is the beauty of yaml. But ident matters
+    description: tons of more detailed information about this user.
+#Comment APIs
+comments:
+  status: 200
+  count: 3
+comment_123:
+  status: 200
+  context: 'this is comment 123'
 # Other experiments
-  brackets:
-    square: Square [brackets] can go in the middle of strings
-    squiggle: Squiggle {brackets} can also go in the middle of strings!
-    extrasquare: [Scratch that] brackets can go at the beginning as long as they close and have text after.
-    extrasquiggle: {Scratch that} squigs can go at the beginning also!
+brackets:
+  square: Square [brackets] can go in the middle of strings
+  squiggle: Squiggle {brackets} can also go in the middle of strings!
+  extrasquare: [Scratch that] brackets can go at the beginning as long as they close and have text after.
+  extrasquiggle: {Scratch that} squigs can go at the beginning also!
+...
