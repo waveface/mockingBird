@@ -1,6 +1,14 @@
 # APIs in V1
 meta:
   version: draft
+v1_articles:
+  timestamp: '2011-07-19T08:54Z'
+  is_end: true
+  articles:
+    - { article: 1 }
+    - { article: 2 }
+    - { article: 3 }
+  article_count: 3
 # feature 1: create an item, update status
 # https://dev.twitter.com/docs/api/1/post/statuses/update
 v1_statuses:
