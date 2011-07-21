@@ -1,5 +1,7 @@
 var http = require('http'), 
     fs = require('fs'),
+    querystring = require('querystring'),
+    rbytes = require('rbytes'),
     router = new (require('biggie-router')),
     timestamp = '2011-07-21T11:09:20.074773',
     yaml = require('yaml');
@@ -43,6 +45,27 @@ fs.readFile('dummy.json', function(err, file) {
             res.end();
         });
 
+    router.post('/0/article')
+        .bind(function (req, res, next) {
+            var fullBody = '';
+            req.on('data', function(chunk) {
+                fullBody += chunk.toString();
+            });
+            req.on('end', function() {
+                var article = {};
+                var body = querystring.parse(fullBody);
+                res.writeHead(200, {'Content-Type': 'application/json'});
+                article['creator_id'] = body.creator_id;
+                article['creation_device_name'] = body.creation_device_name;
+                article['text'] = body.text;
+                article['timestamp'] = timestamp;
+                article['comment_count'] = 0;
+                article['comments'] = [];
+                article['files'] = [];
+                article['id'] = rbytes.randomBytes(24).toHex();
+                res.end(JSON.stringify(article));
+            });
+        });
 
 });
 
