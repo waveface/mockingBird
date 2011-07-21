@@ -43,7 +43,7 @@ def gen_file(user_id, article_id, timestamp):
 def gen_comment(users, article_id, timestamp):
     c = {}
     c['id'] = uuid.uuid1().hex[:12]
-    c['creator_id'] = choice(users)
+    c['creator_id'] = choice(users)['id']
     c['creation_device_name'] = choice(devicenames)
     c['article_id'] = article_id
     c['timestamp'] = timestamp
@@ -57,7 +57,7 @@ def gen_articles(users, num=100):
         timestamp = basetime+timedelta(0,i*10)
         article = {}
         article['id'] = uuid.uuid1().hex[:12]
-        article['creator_id'] = user
+        article['creator_id'] = user['id']
         article['creation_device_name'] = choice(devicenames)
         article['timestamp'] = timestamp.isoformat()
         article['text'] = lipsum
