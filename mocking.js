@@ -1,24 +1,59 @@
-var path = process.argv[2],
-    http = require('http'), 
+var http = require('http'), 
     fs = require('fs'),
-    Router = require('biggie-router'),
+    router = new (require('biggie-router')),
+    timestamp = '2011-07-21T11:09:20.074773',
     yaml = require('yaml');
 
-var router = new Router();
+fs.readFile('dummy.json', function(err, file) {
+    var contents = file.toString();
+    var dummy = eval('(' + contents + ')');
+    var articleRegExp = new RegExp('/0/article/(\\w+)$');
+    var commentsRegExp = new RegExp('/0/article/(\\w+)/comments$');
 
-fs.readFile('spec.yaml', function(err, fileContents) {
-    fileContents = fileContents.toString()
-    var config = yaml.eval(fileContents);
-    for (var model in config) {
-        router.get('/').get('/' + model.replace(/_/g,'/') )
-              .bind(function (request, res, next) {
-                  var pathname = require('url').parse(request.url)['pathname'];
-                  var p = pathname.substring(1).replace(/\//g,'_');
-                  console.log(p);
-                  res.end(JSON.stringify(config[p]));
-              });
-    }
+    router.get('/0/articles')
+        .bind(function (req, res, next) {
+            var body = {};
+
+            body['timestamp'] = timestamp;
+            body['is_end'] = true;
+            body['article_count'] = dummy['articles'].length;
+            body['articles'] = dummy['articles'];
+            res.writeHead(200, {'Content-Type': 'application/json'});
+            res.end(JSON.stringify(body));
+        });
+
+    router.get(articleRegExp)
+        .bind(function (req, res, next) {
+            var article_id = articleRegExp.exec(req.url)[1];
+            var article = findById(dummy['articles'], article_id);
+            if (article != null) {
+                res.write(JSON.stringify(article));
+            }
+            res.end();
+        });
+
+    router.get(commentsRegExp)
+        .bind(function (req, res, next) {
+            var article_id = commentsRegExp.exec(req.url)[1];
+            var article = findById(dummy['articles'], article_id);
+            if (article != null) {
+                var comments = article['comments'];
+                res.write(JSON.stringify(comments));
+            }
+            res.end();
+        });
+
+
 });
+
+function findById (elements, id) {
+    for (var key in elements) {
+        if (elements[key]['id'] == id) {
+            return elements[key];
+        }
+    }
+    return null;
+}
 
 router.listen(8080);
 console.log('Mocking Bird running at http://127.0.0.1:8080/');

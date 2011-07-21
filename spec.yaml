@@ -1,63 +1,21 @@
-# APIs in V1
-meta:
-  version: draft
-v1_articles:
-  timestamp: '2011-07-19T08:54Z'
-  is_end: true
+# APIs in V0
+version: 0
   articles:
-    - { article: 1 }
-    - { article: 2 }
-    - { article: 3 }
-  article_count: 3
-# feature 1: create an item, update status
-# https://dev.twitter.com/docs/api/1/post/statuses/update
-v1_statuses:
-  METHOD: POST
-  text: maybe he'll finally find his keys. #peterfalk.
-  in_reply_to_user_id: null
-# list lastest 20 statuses of current group
-# group_id / user_id
-# refer to twitter public timeline
-v1_groups_timeline:
-  - { text: Pulp Fiction, user: uri to user a }
-  - { text: Best Bmovie ever, user: uri to user b } 
-v1_users_timeline:
-  - { text: Pulp Fiction}
-  - { text: Best Bmovie ever} 
-#test
-users:
-  status: 200
-  count: 3
-  list:
-    America:
-      name: Steve Rogers
-      role: Captain
-      age: 23
-      email: srogers@america.com
-      ctime: "2011/07/14 12:58:00"
-      desc: Steve Rogers was born July 4, 1917, in the Lower East Side of Manhattan, New York City, to Irish immigrants Sarah and Joseph Rogers.
-      avatar: http://www.gravatar.com/avatar/9e0cff1d079898eb94287093f4d26338.jpg
-    Bucky:
-      name: James Barnes
-      age: 27
-    Ted: { name: ted, age: 32, email: ted@tedtalks.com }
-user_rogers:
-  status: 200
-  user:
-    name: Steve Rogers
-    tite: No need for quoting, that is the beauty of yaml. But ident matters
-    description: tons of more detailed information about this user.
-#Comment APIs
-comments:
-  status: 200
-  count: 3
-comment_123:
-  status: 200
-  context: 'this is comment 123'
-# Other experiments
-brackets:
-  square: Square [brackets] can go in the middle of strings
-  squiggle: Squiggle {brackets} can also go in the middle of strings!
-  extrasquare: [Scratch that] brackets can go at the beginning as long as they close and have text after.
-  extrasquiggle: {Scratch that} squigs can go at the beginning also!
-...
+    url: /articles
+    http_method: GET
+    response:
+      timestamp: 2011-07-20T19:00:03.304306
+      is_end: false
+      articles: `dummy['articles']`
+      article_count: `dummy['articles'].length`
+  article:
+    url: /article/(.+)
+    http_method: GET
+    response:
+      article: `findById(dummy['artilces'], $)`
+
+  comment:
+    url: /article/(.+)/comments
+    http_method: GET
+    response:
+      comments: `findById(dummy['articles'], $)['comments']`
