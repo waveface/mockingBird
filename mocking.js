@@ -51,6 +51,7 @@ fs.readFile('dummy.json', function(err, file) {
             req.on('data', function(chunk) {
                 fullBody += chunk.toString();
             });
+
             req.on('end', function() {
                 var article = {};
                 var body = querystring.parse(fullBody);
@@ -64,6 +65,28 @@ fs.readFile('dummy.json', function(err, file) {
                 article['files'] = [];
                 article['id'] = rbytes.randomBytes(24).toHex();
                 res.end(JSON.stringify(article));
+            });
+        });
+
+    router.post('/0/file')
+        .bind(function (req, res, next) {
+            var fullBody = '';
+            req.on('data', function(chunk) {
+                fullBody += chunk.toString();
+            });
+
+            req.on('end', function() {
+                var file = {};
+                var body = querystring.parse(fullBody);
+                res.writeHead(200, {'Content-Type': 'application/json'});
+                file['id'] = rbytes.randomBytes(24).toHex();
+                file['creator_id'] = body.creator_id;
+                file['type'] = 'public.image';
+                file['timestamp'] = timestamp;
+                file['url'] = 'http://localhost/NOT_YET_IMPLEMENT';
+                file['thumbnail_url'] = 'http://localhost/NOT_YET_IMPLEMENT';
+                file['text'] = '';
+                res.end(JSON.stringify(file));
             });
         });
 
