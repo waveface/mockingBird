@@ -68,6 +68,27 @@ fs.readFile('dummy.json', function(err, file) {
             });
         });
 
+    router.post('/0/comment')
+        .bind(function (req, res, next) {
+            var fullBody = '';
+            req.on('data', function(chunk) {
+                fullBody += chunk.toString();
+            });
+
+            req.on('end', function() {
+                var comment = {};
+                var body = querystring.parse(fullBody);
+                res.writeHead(200, {'Content-Type': 'application/json'});
+                comment['creator_id'] = body.creator_id;
+                comment['article_id'] = body.article_id;
+                comment['creation_device_name'] = body.creation_device_name;
+                comment['text'] = body.text;
+                comment['timestamp'] = timestamp;
+                comment['id'] = rbytes.randomBytes(24).toHex();
+                res.end(JSON.stringify(comment));
+            });
+        });
+
     router.post('/0/file')
         .bind(function (req, res, next) {
             var fullBody = '';
