@@ -1,39 +1,34 @@
-Why Mocking Bird
-================
+# Mocking Bird
 
-API is the law of entire software project. It should reviewed as early as possible. But in reality, it begins with a document, people try to add a lot of things in it. In the end, a bloat API spec is born. It's hard to implement, hard to use (you need to reference document), and finally everyone hates it.
+API is the law of an entire software project.  It should reviewed as early as possible.  Instead of beginning with a document, people try to append a lot of things and bloat the spec, making it hard to implement, difficult to use without referencing the document, and creates hatred around the API.
 
-By learning from "how to Desgin a good API and why it matters" by Joshua Bloch, a API spec should
+By learning from *How to Design a Good API and Why It Matters* by Joshua Bloch, an API spec should be…
 
- * short (1 page rule them all)
- * start *before* you've implement the API
+ * very short (1 page rule them all)
+ * started *before* you’ve started implementing the API
 
-Therefore, Mocking Bird is born. It reads a human readible YAML file as API specication and start a node.js server serving your API. You can use HTTP call immediately to see how your API works in no time. No coding required, go try it now.
+Mocking Bird is an API mocking server driven by a human-readable YAML file, created using node.js.  You can try all the method calls immediately to see how your API works, in little to no time.  There is no back-end coding required; go try it now.
 
-Prerequisite
-============
+## Bootstrapping
 
     % cd ~
     % npm install yaml biggie-router
     % npm install supervisor -g
 
-Run It
-======
+## Running MockingBird
 
     % node mocking.js
     % curl http://localhost:8080/users 
     {"status":200,"count":3 ...
     %
 
-Run It (in drafting mode)
-=========================
+## Running MockingBird in drafting mode
 
     % supervisor mocking.js
     % curl http://localhost:8080/users 
     {"status":200,"count":3 ...
     %
 
-Todo
-====
+## Todo
 
- * RESTful support
+ *	RESTful support
