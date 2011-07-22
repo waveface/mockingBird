@@ -25,7 +25,6 @@ function readDummy (err, file) {
                 var body = {};
                 var params = querystring.parse(req.url);
                 for (var key in response) {
-                    console.log(key);
                     var match = null;
                     if (response[key].search('match') != -1) {
                         match = urlExp.exec(req.url);
@@ -79,7 +78,6 @@ function readDummy (err, file) {
             continue;
         }
 
-        console.log("REST API: " + urlExp + ", Method: " + method);
         _fn(JSON.stringify(api['response']), urlExp, method)
     }
 
