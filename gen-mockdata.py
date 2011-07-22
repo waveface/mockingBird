@@ -23,7 +23,7 @@ def gen_users(num=10):
     for i in range(num):
         user = {}
         user['id'] = gen_id()
-        user['avatar_url'] = 'http://%s/images/avatars/%s' % \
+        user['avatar_url'] = 'http://%s:8080/images/avatars/%s' % \
                              (address, avatars[randint(0,9)])
         user['email'] = 'a%s@example.com' % randint(0,1000000)
         user['nickname'] = "%s %s" % \
@@ -39,8 +39,9 @@ def gen_file(user_id, article_id, timestamp):
     f['article_id'] = article_id
     f['timestamp'] = timestamp
     f['type'] = 'public.image'
-    f['url'] = 'http://%s/images/original/%s' % (address,choice(filenames))
-    f['thumbnail_url'] = 'http://%s/images/thumbnails/%s' % \
+    f['url'] = 'http://%s:8080/images/original/%s' % \
+               (address,choice(filenames))
+    f['thumbnail_url'] = 'http://%s:8080/images/thumbnails/%s' % \
                             (address, choice(filenames))
     f['text'] = lipsum
     return f

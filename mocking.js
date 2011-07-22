@@ -3,6 +3,7 @@ var http = require('http'),
     exec = require('child_process').exec,
     querystring = require('querystring'),
     rbytes = require('rbytes'),
+    static = require('node-static'),
     router = new (require('biggie-router')),
     timestamp = '2011-07-21T11:09:20.074773',
     config = {},
@@ -81,6 +82,13 @@ function readDummy (err, file) {
         _fn(JSON.stringify(api['response']), urlExp, method)
     }
 
+    var fileServer = new static.Server('./static');
+    router.get(new RegExp("/images.*"))
+        .bind(function(req, res, next) {
+            req.addListener('end', function() {
+                fileServer.serve(req, res);
+            });
+        });
 };
 
 function generateId() {
