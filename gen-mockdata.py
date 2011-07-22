@@ -1,8 +1,9 @@
 import sys
 import uuid
 import json
-from random import randint, choice
 import os
+import socket
+from random import randint, choice
 from datetime import datetime, timedelta
 
 firstnames = ['Ericka', 'Amie', 'Annabelle', 'Hugh', 'Carmella']
@@ -10,6 +11,7 @@ lastnames = ['Hilts', 'Kowalsky', 'Cincotta', 'Gerken', 'Stults']
 devicenames = ['iPad', 'Android', 'Web']
 filenames = os.listdir('images/original')
 basetime = datetime.today()
+address = socket.gethostbyname(socket.gethostname())
 lipsum='Lorem ipsum dolor sit amet, consectetur adipiscing elit. In sollicitudin elementum tristique. Nullam gravida bibendum magna viverra gravida. Cras nec mi a est malesuada dictum.'
 
 def gen_id():
@@ -21,8 +23,8 @@ def gen_users(num=10):
     for i in range(num):
         user = {}
         user['id'] = gen_id()
-        user['avatar_url'] = 'http://127.0.0.1/images/avatars/%s' % \
-                             avatars[randint(0,9)]
+        user['avatar_url'] = 'http://%s/images/avatars/%s' % \
+                             (address, avatars[randint(0,9)])
         user['email'] = 'a%s@example.com' % randint(0,1000000)
         user['nickname'] = "%s %s" % \
                            (choice(firstnames), \
@@ -37,9 +39,9 @@ def gen_file(user_id, article_id, timestamp):
     f['article_id'] = article_id
     f['timestamp'] = timestamp
     f['type'] = 'public.image'
-    f['url'] = 'http://127.0.0.1/images/original/%s' % choice(filenames)
-    f['thumbnail_url'] = 'http://127.0.0.1/images/thumbnails/%s' % \
-                            choice(filenames)
+    f['url'] = 'http://%s/images/original/%s' % (address,choice(filenames))
+    f['thumbnail_url'] = 'http://%s/images/thumbnails/%s' % \
+                            (address, choice(filenames))
     f['text'] = lipsum
     return f
 
