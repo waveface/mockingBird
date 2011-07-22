@@ -1,21 +1,24 @@
 # APIs in V0
 version: 0
+api:
   articles:
-    url: /articles
+    prefix: api
+    url: articles
     http_method: GET
     response:
-      timestamp: 2011-07-20T19:00:03.304306
-      is_end: false
-      articles: `dummy['articles']`
-      article_count: `dummy['articles'].length`
+      timestamp: "'2011-07-20T19:00:03.304306'"
+      is_end: "true"
+      article_count: "dummy['articles'].length"
+      articles: "dummy['articles']"
   article:
-    url: /article/(.+)
+    prefix: api
+    url: "article/(\w+)$"
     http_method: GET
     response:
-      article: `findById(dummy['artilces'], $)`
-
-  comment:
-    url: /article/(.+)/comments
+      article: "findById(dummy['articles'], match)"
+  comments:
+    prefix: api
+    url: "article/(\w+)/comments$"
     http_method: GET
     response:
-      comments: `findById(dummy['articles'], $)['comments']`
+      comments: "findById(dummy['articles'], match)['comments']"

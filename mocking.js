@@ -5,114 +5,61 @@ var http = require('http'),
     rbytes = require('rbytes'),
     router = new (require('biggie-router')),
     timestamp = '2011-07-21T11:09:20.074773',
+    config = {},
     yaml = require('yaml');
 
-fs.readFile('dummy.json', function(err, file) {
+fs.readFile('spec.yaml', function (err, file) {
+    config = yaml.eval(file.toString());
+    fs.readFile('dummy.json', readDummy);
+});
+
+function readDummy (err, file) {
     var contents = file.toString();
     var dummy = eval('(' + contents + ')');
-    var articleRegExp = new RegExp('/0/article/(\\w+)$');
-    var commentsRegExp = new RegExp('/0/article/(\\w+)/comments$');
+    var version = config['version'];
 
-    router.get('/0/articles')
-        .bind(function (req, res, next) {
-            var body = {};
+    var _fn = function (json, urlExp) {
+        var response = eval('('+json+')');
+        router[method](urlExp)
+            .bind(function(req, res, next) {
+                var body = {};
+                for (var key in response) {
+                    console.log(key);
+                    var match = null;
+                    if (response[key].search('match') != -1) {
+                        match = urlExp.exec(req.url);
+                        if (match != null) {
+                            match = match[1];
+                        }
+                    }
+                    body[key] = eval(response[key]);
+                }
 
-            body['timestamp'] = timestamp;
-            body['is_end'] = true;
-            body['article_count'] = dummy['articles'].length;
-            body['articles'] = dummy['articles'];
-            res.writeHead(200, {'Content-Type': 'application/json'});
-            res.end(JSON.stringify(body));
-        });
-
-    router.get(articleRegExp)
-        .bind(function (req, res, next) {
-            var article_id = articleRegExp.exec(req.url)[1];
-            var article = findById(dummy['articles'], article_id);
-            if (article != null) {
-                res.write(JSON.stringify(article));
-            }
-            res.end();
-        });
-
-    router.get(commentsRegExp)
-        .bind(function (req, res, next) {
-            var article_id = commentsRegExp.exec(req.url)[1];
-            var article = findById(dummy['articles'], article_id);
-            if (article != null) {
-                var comments = article['comments'];
-                res.write(JSON.stringify(comments));
-            }
-            res.end();
-        });
-
-    router.post('/0/article')
-        .bind(function (req, res, next) {
-            var fullBody = '';
-            req.on('data', function(chunk) {
-                fullBody += chunk.toString();
-            });
-
-            req.on('end', function() {
-                var article = {};
-                var body = querystring.parse(fullBody);
                 res.writeHead(200, {'Content-Type': 'application/json'});
-                article['creator_id'] = body.creator_id;
-                article['creation_device_name'] = body.creation_device_name;
-                article['text'] = body.text;
-                article['timestamp'] = timestamp;
-                article['comment_count'] = 0;
-                article['comments'] = [];
-                article['files'] = [];
-                article['id'] = rbytes.randomBytes(24).toHex();
-                res.end(JSON.stringify(article));
+                res.end(JSON.stringify(body));
             });
-        });
+    };
 
-    router.post('/0/comment')
-        .bind(function (req, res, next) {
-            var fullBody = '';
-            req.on('data', function(chunk) {
-                fullBody += chunk.toString();
-            });
+    for (var k in config['api']) {
+        var api = config['api'][k],
+            method = null,
+            urlExp = new RegExp('/' + api['prefix'] + '/' +
+                                version + '/' + api['url']);
 
-            req.on('end', function() {
-                var comment = {};
-                var body = querystring.parse(fullBody);
-                res.writeHead(200, {'Content-Type': 'application/json'});
-                comment['creator_id'] = body.creator_id;
-                comment['article_id'] = body.article_id;
-                comment['creation_device_name'] = body.creation_device_name;
-                comment['text'] = body.text;
-                comment['timestamp'] = timestamp;
-                comment['id'] = rbytes.randomBytes(24).toHex();
-                res.end(JSON.stringify(comment));
-            });
-        });
+        if (api['http_method'] == 'GET') {
+            method = 'get';
+        } else if (api['http_method'] == 'POST') {
+            method = 'post';
+        }
+        else {
+            continue;
+        }
 
-    router.post('/0/file')
-        .bind(function (req, res, next) {
-            var fullBody = '';
-            req.on('data', function(chunk) {
-                fullBody += chunk.toString();
-            });
+        console.log(urlExp);
+        _fn(JSON.stringify(api['response']), urlExp)
+    }
 
-            req.on('end', function() {
-                var file = {};
-                var body = querystring.parse(fullBody);
-                res.writeHead(200, {'Content-Type': 'application/json'});
-                file['id'] = rbytes.randomBytes(24).toHex();
-                file['creator_id'] = body.creator_id;
-                file['type'] = 'public.image';
-                file['timestamp'] = timestamp;
-                file['url'] = 'http://localhost/NOT_YET_IMPLEMENT';
-                file['thumbnail_url'] = 'http://localhost/NOT_YET_IMPLEMENT';
-                file['text'] = '';
-                res.end(JSON.stringify(file));
-            });
-        });
-
-});
+};
 
 function findById (elements, id) {
     for (var key in elements) {
