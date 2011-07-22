@@ -23,6 +23,7 @@ function readDummy (err, file) {
         router[method](urlExp)
             .bind(function(req, res, next) {
                 var body = {};
+                var params = querystring.parse(req.url);
                 for (var key in response) {
                     console.log(key);
                     var match = null;
