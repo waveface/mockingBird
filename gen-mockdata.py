@@ -12,12 +12,15 @@ filenames = os.listdir('images/original')
 basetime = datetime.today()
 lipsum='Lorem ipsum dolor sit amet, consectetur adipiscing elit. In sollicitudin elementum tristique. Nullam gravida bibendum magna viverra gravida. Cras nec mi a est malesuada dictum.'
 
+def gen_id():
+    return uuid.uuid1().hex[:24]
+
 def gen_users(num=10):
     avatars = os.listdir('images/avatars')
     users = []
     for i in range(num):
         user = {}
-        user['id'] = uuid.uuid1().hex[:12]
+        user['id'] = gen_id()
         user['avatar_url'] = 'http://127.0.0.1/images/avatars/%s' % \
                              avatars[randint(0,9)]
         user['email'] = 'a%s@example.com' % randint(0,1000000)
@@ -29,7 +32,7 @@ def gen_users(num=10):
 
 def gen_file(user_id, article_id, timestamp):
     f = {}
-    f['id'] = uuid.uuid1().hex[:12]
+    f['id'] = gen_id()
     f['creator_id'] = user_id
     f['article_id'] = article_id
     f['timestamp'] = timestamp
@@ -42,7 +45,7 @@ def gen_file(user_id, article_id, timestamp):
 
 def gen_comment(users, article_id, timestamp):
     c = {}
-    c['id'] = uuid.uuid1().hex[:12]
+    c['id'] = gen_id()
     c['creator_id'] = choice(users)['id']
     c['creation_device_name'] = choice(devicenames)
     c['article_id'] = article_id
@@ -56,7 +59,7 @@ def gen_articles(users, num=100):
         user = choice(users)
         timestamp = basetime+timedelta(0,i*10)
         article = {}
-        article['id'] = uuid.uuid1().hex[:12]
+        article['id'] = gen_id()
         article['creator_id'] = user['id']
         article['creation_device_name'] = choice(devicenames)
         article['timestamp'] = timestamp.isoformat()
