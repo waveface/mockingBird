@@ -18,7 +18,7 @@ function readDummy (err, file) {
     var dummy = eval('(' + contents + ')');
     var version = config['version'];
 
-    var _fn = function (json, urlExp) {
+    var _getfn = function (json, urlExp, method) {
         var response = eval('('+json+')');
         router[method](urlExp)
             .bind(function(req, res, next) {
@@ -34,13 +34,34 @@ function readDummy (err, file) {
                     }
                     body[key] = eval(response[key]);
                 }
-
                 res.writeHead(200, {'Content-Type': 'application/json'});
                 res.end(JSON.stringify(body));
             });
     };
 
+    var _postfn = function (json, urlExp) {
+        var response = eval('('+json+')');
+        router[method](urlExp)
+            .bind(function(req, res, next) {
+                var bodyText = '';
+                req.on('data', function(chunk) {
+                    bodyText += chunk.toString();
+                });
+
+                req.on('end', function() {
+                    var body = {};
+                    var params = querystring.parse(bodyText);
+                    for (var key in response) {
+                        body[key] = eval(response[key]);
+                    }
+                    res.writeHead(200, {'Content-Type': 'application/json'});
+                    res.end(JSON.stringify(body));
+                });
+            });
+    };
+
     for (var k in config['api']) {
+        var _fn = null;
         var api = config['api'][k],
             method = null,
             urlExp = new RegExp('/' + api['prefix'] + '/' +
@@ -48,18 +69,24 @@ function readDummy (err, file) {
 
         if (api['http_method'] == 'GET') {
             method = 'get';
+            _fn = _getfn;
         } else if (api['http_method'] == 'POST') {
             method = 'post';
+            _fn = _postfn;
         }
         else {
             continue;
         }
 
-        console.log(urlExp);
-        _fn(JSON.stringify(api['response']), urlExp)
+        console.log("REST API: " + urlExp + ", Method: " + method);
+        _fn(JSON.stringify(api['response']), urlExp, method)
     }
 
 };
+
+function generateId() {
+    return rbytes.randomBytes(24).toHex();
+}
 
 function findById (elements, id) {
     for (var key in elements) {
