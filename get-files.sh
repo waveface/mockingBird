@@ -16,12 +16,12 @@ mkdir -p static/images/original static/images/thumbnails static/images/avatars
 
 for i in {1480..1450}
 do 
-    wget http://220.133.12.74/Share/Large/$i.jpeg -O static/images/original/$i.jpeg
-    wget http://220.133.12.74/Share/Small/$i.jpeg -O static/images/thumbnails/$i.jpeg
+    wget -nc http://220.133.12.74/Share/Large/$i.jpeg -O static/images/original/$i.jpeg
+    wget -nc http://220.133.12.74/Share/Small/$i.jpeg -O static/images/thumbnails/$i.jpeg
 done
 
 for i in {0..9}
 do
-    wget "http://0.gravatar.com/avatar/${avatars[$i]}?s=69&d=monsterid" \
+    wget -nc "http://0.gravatar.com/avatar/${avatars[$i]}?s=69&d=monsterid" \
          -O static/images/avatars/${avatars[$i]}.jpg
 done
