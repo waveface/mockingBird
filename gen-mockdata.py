@@ -11,7 +11,10 @@ lastnames = ['Hilts', 'Kowalsky', 'Cincotta', 'Gerken', 'Stults']
 devicenames = ['iPad', 'Android', 'Web']
 filenames = os.listdir('images/original')
 basetime = datetime.today()
-address = socket.gethostbyname(socket.gethostname())
+try:
+    address = socket.gethostbyname(socket.gethostname())
+except Exception as e:
+    address = '127.0.0.1'
 lipsum='Lorem ipsum dolor sit amet, consectetur adipiscing elit. In sollicitudin elementum tristique. Nullam gravida bibendum magna viverra gravida. Cras nec mi a est malesuada dictum.'
 
 def gen_id():
