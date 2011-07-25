@@ -14,7 +14,7 @@ Prerequisite
 ============
 
     % cd ~
-    % npm install yaml biggie-router
+    % npm install yaml biggie-router rbytes node-static
     % npm install supervisor -g
 
 Run It
@@ -33,6 +33,21 @@ Run It (in drafting mode)
     {"status":200,"count":3 ...
     %
 
+Test it
+=======
+
+    % curl -d "creator_id=be8afc91b69d11e08303109a&creation_device_name=android&text=somethingherer" http://[IP]:8080/api/0/article
+    {
+	    "creator_id": "be8afc91b69d11e08303109a",
+	    "creation_device_name": "android",
+	    "text": "somethingherer",
+	    "timestamp": "2011-07-21T11:09:20.074773",
+	    "comment_count": 0,
+	    "comments": [],
+	    "files": [],
+	    "id": "81286c2d6b6e19bde013ac9919d22f041ca4ea14b855f9a0"
+	}
+	
 Todo
 ====
 
