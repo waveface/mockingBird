@@ -9,7 +9,7 @@ from datetime import datetime, timedelta
 firstnames = ['Ericka', 'Amie', 'Annabelle', 'Hugh', 'Carmella']
 lastnames = ['Hilts', 'Kowalsky', 'Cincotta', 'Gerken', 'Stults']
 devicenames = ['iPad', 'Android', 'Web']
-filenames = os.listdir('images/original')
+filenames = os.listdir('static/images/original')
 basetime = datetime.today()
 try:
     address = socket.gethostbyname(socket.gethostname())
@@ -21,7 +21,7 @@ def gen_id():
     return uuid.uuid1().hex[:24]
 
 def gen_users(num=10):
-    avatars = os.listdir('images/avatars')
+    avatars = os.listdir('static/images/avatars')
     users = []
     for i in range(num):
         user = {}
