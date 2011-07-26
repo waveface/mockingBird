@@ -1,21 +1,81 @@
 # APIs in V0
 version: 0
+api:
   articles:
-    url: /articles
+    prefix: api
+    url: articles
     http_method: GET
     response:
-      timestamp: 2011-07-20T19:00:03.304306
-      is_end: false
-      articles: `dummy['articles']`
-      article_count: `dummy['articles'].length`
+      timestamp: "timestamp"
+      is_end: "true"
+      article_count: "dummy['articles'].length"
+      articles: "dummy['articles']"
   article:
-    url: /article/(.+)
+    prefix: api
+    url: "article/(\w+)$"
     http_method: GET
     response:
-      article: `findById(dummy['artilces'], $)`
-
-  comment:
-    url: /article/(.+)/comments
+      article: "findById(dummy['articles'], match)"
+  comments:
+    prefix: api
+    url: "article/(\w+)/comments$"
     http_method: GET
     response:
-      comments: `findById(dummy['articles'], $)['comments']`
+      comments: "findById(dummy['articles'], match)['comments']"
+  
+  post_article:
+    prefix: api
+    url: article
+    http_method: POST
+    response:
+      creator_id: "params.creator_id"
+      creation_device_name: "params.creation_device_name"
+      text: "params.text"
+      timestamp: "timestamp"
+      comment_count: "0"
+      comments: "[]"
+      files: "[]"
+      id: "generateId()"
+      
+  upload_file:
+    prefix: api
+    url: file
+    http_method: POST
+    response:
+      id: "generateId()"
+      creator_id: "params.creator_id"
+      type: "'public.image'"
+      timestamp: "timestamp"
+      url: "'http://localhost/NOT_YET_IMPLEMENT'"
+      thumbnail_url: "'http://localhost/NOT_YET_IMPLEMENT'"
+      text: "''"
+  
+  jobcallback:
+    prefix: private
+    url: jobcallback.*
+    http_method: GET
+    response:
+      status: "200"
+    
+  private_article:
+    prefix: private
+    url: article.*
+    http_method: GET
+    response:
+      status: "200"
+      article_id: "generateId()"
+  
+  private_comment:
+    prefix: private
+    url: comments.*
+    http_method: GET
+    response:
+      status: "200"
+      comment_id: "generateId()"
+  
+  jobqueue:
+    prefix: private
+    url: jobqueue.*
+    http_method: GET
+    response:
+      job_id: "generateId()"

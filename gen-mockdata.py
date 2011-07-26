@@ -1,25 +1,33 @@
 import sys
 import uuid
 import json
-from random import randint, choice
 import os
+import socket
+from random import randint, choice
 from datetime import datetime, timedelta
 
 firstnames = ['Ericka', 'Amie', 'Annabelle', 'Hugh', 'Carmella']
 lastnames = ['Hilts', 'Kowalsky', 'Cincotta', 'Gerken', 'Stults']
 devicenames = ['iPad', 'Android', 'Web']
-filenames = os.listdir('images/original')
+filenames = os.listdir('static/images/original')
 basetime = datetime.today()
+try:
+    address = socket.gethostbyname(socket.gethostname())
+except Exception as e:
+    address = '127.0.0.1'
 lipsum='Lorem ipsum dolor sit amet, consectetur adipiscing elit. In sollicitudin elementum tristique. Nullam gravida bibendum magna viverra gravida. Cras nec mi a est malesuada dictum.'
 
+def gen_id():
+    return uuid.uuid1().hex[:24]
+
 def gen_users(num=10):
-    avatars = os.listdir('images/avatars')
+    avatars = os.listdir('static/images/avatars')
     users = []
     for i in range(num):
         user = {}
-        user['id'] = uuid.uuid1().hex[:12]
-        user['avatar_url'] = 'http://127.0.0.1/images/avatars/%s' % \
-                             avatars[randint(0,9)]
+        user['id'] = gen_id()
+        user['avatar_url'] = 'http://%s:8080/images/avatars/%s' % \
+                             (address, avatars[randint(0,9)])
         user['email'] = 'a%s@example.com' % randint(0,1000000)
         user['nickname'] = "%s %s" % \
                            (choice(firstnames), \
@@ -29,20 +37,21 @@ def gen_users(num=10):
 
 def gen_file(user_id, article_id, timestamp):
     f = {}
-    f['id'] = uuid.uuid1().hex[:12]
+    f['id'] = gen_id()
     f['creator_id'] = user_id
     f['article_id'] = article_id
     f['timestamp'] = timestamp
     f['type'] = 'public.image'
-    f['url'] = 'http://127.0.0.1/images/original/%s' % choice(filenames)
-    f['thumbnail_url'] = 'http://127.0.0.1/images/thumbnails/%s' % \
-                            choice(filenames)
+    f['url'] = 'http://%s:8080/images/original/%s' % \
+               (address,choice(filenames))
+    f['thumbnail_url'] = 'http://%s:8080/images/thumbnails/%s' % \
+                            (address, choice(filenames))
     f['text'] = lipsum
     return f
 
 def gen_comment(users, article_id, timestamp):
     c = {}
-    c['id'] = uuid.uuid1().hex[:12]
+    c['id'] = gen_id()
     c['creator_id'] = choice(users)['id']
     c['creation_device_name'] = choice(devicenames)
     c['article_id'] = article_id
@@ -56,7 +65,7 @@ def gen_articles(users, num=100):
         user = choice(users)
         timestamp = basetime+timedelta(0,i*10)
         article = {}
-        article['id'] = uuid.uuid1().hex[:12]
+        article['id'] = gen_id()
         article['creator_id'] = user['id']
         article['creation_device_name'] = choice(devicenames)
         article['timestamp'] = timestamp.isoformat()
