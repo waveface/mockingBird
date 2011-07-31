@@ -24,7 +24,8 @@ function readDummy (err, file) {
         router[method](urlExp)
             .bind(function(req, res, next) {
                 var body = {};
-                var params = querystring.parse(req.url);
+                var params = querystring.parse(require('url').parse(req.url).query);
+                console.log(params);
                 for (var key in response) {
                     var match = null;
                     if (response[key].search('match') != -1) {

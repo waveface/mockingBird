@@ -3,13 +3,13 @@ version: 0
 api:
   articles:
     prefix: api
-    url: articles
+    url: "articles.*"
     http_method: GET
     response:
       timestamp: "timestamp"
       is_end: "true"
       article_count: "dummy['articles'].length"
-      articles: "dummy['articles']"
+      articles: "params['limit'] ? dummy['articles'].splice(0,params['limit']) : dummy['articles']"
   article:
     prefix: api
     url: "article/(\w+)$"
