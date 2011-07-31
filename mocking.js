@@ -15,6 +15,12 @@ fs.readFile('spec.yaml', function (err, file) {
 });
 
 function readDummy (err, file) {
+	
+    if (err || !file) {
+        console.log("Error reading file: " + err);
+        return;
+    }
+	
     var contents = file.toString();
     var dummy = eval('(' + contents + ')');
     var version = config['version'];
@@ -106,21 +112,10 @@ function findById (elements, id) {
 }
 
 
-child = exec ('/sbin/ifconfig', function(error, stdout, stderr) {
-    var lines = stdout.split('\n');
-    var regexp = /inet \b(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})\b/g;
-    var address = null;
-    var port = 8080;
-    for (var k in lines) {
-        var match = regexp.exec(lines[k]);
-        if (match == null) {
-            continue;
-        }
-        if (address == null || address == '127.0.0.1') {
-            address = match[1];
-        }
-    }
-    router.listen(port, address);
-    console.log('Mocking Bird running at http://' + address + ':'+ port + '/');
-});
 
+//  Bind Biggie Router to a port provided by Heroku’s Cedar stack or 8080 by default,
+//  if app is launched via foreman or directly from node.
+
+var listeningPort = process.env.PORT || 8080;
+router.listen(listeningPort);
+console.log('Mocking Bird running at port ' + listeningPort);
