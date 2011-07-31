@@ -112,5 +112,10 @@ function findById (elements, id) {
 }
 
 
-router.listen(8080);
-console.log('Mocking Bird running at port 8080');
+
+//  Bind Biggie Router to a port provided by Heroku’s Cedar stack or 8080 by default,
+//  if app is launched via foreman or directly from node.
+
+var listeningPort = process.env.PORT || 8080;
+router.listen(listeningPort);
+console.log('Mocking Bird running at port ' + listeningPort);
