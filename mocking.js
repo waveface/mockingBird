@@ -112,21 +112,5 @@ function findById (elements, id) {
 }
 
 
-child = exec ('/sbin/ifconfig', function(error, stdout, stderr) {
-    var lines = stdout.split('\n');
-    var regexp = /inet \b(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})\b/g;
-    var address = null;
-    var port = 8080;
-    for (var k in lines) {
-        var match = regexp.exec(lines[k]);
-        if (match == null) {
-            continue;
-        }
-        if (address == null || address == '127.0.0.1') {
-            address = match[1];
-        }
-    }
-    router.listen(port, address);
-    console.log('Mocking Bird running at http://' + address + ':'+ port + '/');
-});
-
+router.listen(8080);
+console.log('Mocking Bird running at port 8080');
