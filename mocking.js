@@ -15,6 +15,12 @@ fs.readFile('spec.yaml', function (err, file) {
 });
 
 function readDummy (err, file) {
+	
+    if (err || !file) {
+        console.log("Error reading file: " + err);
+        return;
+    }
+	
     var contents = file.toString();
     var dummy = eval('(' + contents + ')');
     var version = config['version'];
