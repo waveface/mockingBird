@@ -1,5 +1,4 @@
 *.swp
 .project
-images
-dummy.json
+node_modules
 .DS_Store
