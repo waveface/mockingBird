@@ -34,15 +34,16 @@ def gen_users(num=10):
 
 def gen_file(user_id, article_id, timestamp):
     f = {}
+    filename = choice(filenames)
     f['id'] = gen_id()
     f['creator_id'] = user_id
     f['article_id'] = article_id
     f['timestamp'] = timestamp
     f['type'] = 'public.image'
     f['url'] = 'http://%s/images/original/%s' % \
-               (address,choice(filenames))
+               (address,filename)
     f['thumbnail_url'] = 'http://%s/images/thumbnails/%s' % \
-                            (address, choice(filenames))
+                            (address, filename)
     f['text'] = lipsum
     return f
 
