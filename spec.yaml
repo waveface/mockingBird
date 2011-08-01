@@ -22,6 +22,12 @@ api:
     http_method: GET
     response:
       comments: "findById(dummy['articles'], match)['comments']"
+  users:
+    prefix: api
+    url: "users"
+    http_method: GET
+    response:
+      users: "dummy['users']"
   
   post_article:
     prefix: api
