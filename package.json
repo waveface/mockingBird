@@ -1,0 +1,10 @@
+{
+	"name": "com.waveface.mockingBird",
+	"version": "0.1.0",
+	"dependencies": {
+		"yaml": "0.2.1",
+		"biggie-router": "0.3.4",
+		"rbytes": "0.0.2",
+		"node-static": "0.5.7"
+	}
+}
