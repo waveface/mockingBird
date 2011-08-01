@@ -9,7 +9,7 @@ api:
       timestamp: "timestamp"
       is_end: "true"
       article_count: "dummy['articles'].length"
-      articles: "params['limit'] ? dummy['articles'].splice(0,params['limit']) : dummy['articles']"
+      articles: "params['limit'] ? dummy['articles'].slice(0,params['limit']) : dummy['articles']"
   article:
     prefix: api
     url: "article/(\w+)$"
