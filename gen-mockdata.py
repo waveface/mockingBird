@@ -11,10 +11,7 @@ lastnames = ['Hilts', 'Kowalsky', 'Cincotta', 'Gerken', 'Stults']
 devicenames = ['iPad', 'Android', 'Web']
 filenames = os.listdir('static/images/original')
 basetime = datetime.today()
-try:
-    address = socket.gethostbyname(socket.gethostname())
-except Exception as e:
-    address = '127.0.0.1'
+address = 'wammer-mock.herokuapp.com'
 lipsum='Lorem ipsum dolor sit amet, consectetur adipiscing elit. In sollicitudin elementum tristique. Nullam gravida bibendum magna viverra gravida. Cras nec mi a est malesuada dictum.'
 
 def gen_id():
@@ -26,7 +23,7 @@ def gen_users(num=10):
     for i in range(num):
         user = {}
         user['id'] = gen_id()
-        user['avatar_url'] = 'http://%s:8080/images/avatars/%s' % \
+        user['avatar_url'] = 'http://%s/images/avatars/%s' % \
                              (address, avatars[randint(0,9)])
         user['email'] = 'a%s@example.com' % randint(0,1000000)
         user['nickname'] = "%s %s" % \
@@ -42,9 +39,9 @@ def gen_file(user_id, article_id, timestamp):
     f['article_id'] = article_id
     f['timestamp'] = timestamp
     f['type'] = 'public.image'
-    f['url'] = 'http://%s:8080/images/original/%s' % \
+    f['url'] = 'http://%s/images/original/%s' % \
                (address,choice(filenames))
-    f['thumbnail_url'] = 'http://%s:8080/images/thumbnails/%s' % \
+    f['thumbnail_url'] = 'http://%s/images/thumbnails/%s' % \
                             (address, choice(filenames))
     f['text'] = lipsum
     return f
