@@ -52,6 +52,7 @@ api:
       creation_device_name: "params.creation_device_name"
       article_id: "params.article_id"
       text: "params.text"
+      id: "generateId()"
       
   upload_file:
     prefix: api
