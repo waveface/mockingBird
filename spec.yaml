@@ -42,6 +42,16 @@ api:
       comments: "[]"
       files: "[]"
       id: "generateId()"
+  
+  post_comment:
+    prefix: api
+    url: comment
+    http_method: POST
+    response:
+      creator_id: "params.creator_id"
+      creation_device_name: "params.creation_device_name"
+      article_id: "params.article_id"
+      text: "params.text"
       
   upload_file:
     prefix: api
